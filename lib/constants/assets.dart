@@ -7,3 +7,4 @@ const String icRefrigerator = 'assets/ic_refrigerator.svg';
 const String icStar = 'assets/ic_star.svg';
 const String icTime = 'assets/ic_time.svg';
 const String icVeg = 'assets/ic_veg.svg';
+const String icFood = 'assets/ic_food.svg';

@@ -1,6 +1,7 @@
 import 'package:chefkart/constants/theme.dart';
 import 'package:chefkart/screen/select_dish_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -12,11 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'ChefKart',
-      debugShowCheckedModeBanner: false,
-      theme: buildTheme(),
-      home: const SelectDishScreen(),
+    return ScreenUtilInit(
+      designSize: const Size(360, 640),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, snapshot) {
+        return GetMaterialApp(
+          title: 'ChefKart',
+          debugShowCheckedModeBanner: false,
+          theme: buildTheme(),
+          home: const SelectDishScreen(),
+        );
+      },
     );
   }
 }
