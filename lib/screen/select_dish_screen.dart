@@ -24,6 +24,7 @@ class _SelectDishScreenState extends State<SelectDishScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor:whiteColor,
         appBar: AppBar(
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: statusBarColor,
@@ -118,6 +119,7 @@ class _SelectDishScreenState extends State<SelectDishScreen> {
                         padding: EdgeInsets.only(left: 25.w),
                         child: Row(
                           children: [
+                            if(_apiController.dashboardData().popularDishes != null)
                             for (var item in _apiController
                                 .dashboardData()
                                 .popularDishes!)
@@ -194,6 +196,7 @@ class _SelectDishScreenState extends State<SelectDishScreen> {
                         ],
                       ),
                     ),
+                    if(_apiController.dashboardData().dishes != null)
                     for (var dish in _apiController.dashboardData().dishes!)
                       WidgetIItemList(
                         dish: dish,
