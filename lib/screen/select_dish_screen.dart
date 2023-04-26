@@ -1,9 +1,12 @@
 import 'package:chefkart/constants/assets.dart';
 import 'package:chefkart/constants/colors.dart';
+import 'package:chefkart/screen/dish_details_screen.dart';
+import 'package:chefkart/widget/widget_rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class SelectDishScreen extends StatefulWidget {
   const SelectDishScreen({super.key});
@@ -26,11 +29,13 @@ class _SelectDishScreemState extends State<SelectDishScreen> {
           ),
           backgroundColor: whiteColor,
           elevation: 0,
-          leading: Padding(
-            padding: EdgeInsets.fromLTRB(15.w, 19.h, 10.w, 19.h),
-            child: SvgPicture.asset(
-              icBack,
-            ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            color: Colors.black,
+            iconSize: 14.sp,
+            onPressed: () {
+              // Get.back();
+            },
           ),
           title: Text(
             'Select Dishes',
@@ -303,31 +308,7 @@ class WidgetIItemList extends StatelessWidget {
                     SizedBox(
                       width: 8.w,
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                      decoration: BoxDecoration(
-                        color: greenColor,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '4.2',
-                            style: TextStyle(color: whiteColor, fontSize: 7.sp),
-                          ),
-                          SizedBox(
-                            width: 3.w,
-                          ),
-                          SvgPicture.asset(
-                            icStar,
-                            height: 4.h,
-                            width: 4.w,
-                          ),
-                        ],
-                      ),
-                    )
+                    const WidgetRating()
                   ],
                 ),
                 SizedBox(
@@ -384,41 +365,46 @@ class WidgetIItemList extends StatelessWidget {
                       SizedBox(
                         width: 15.w,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Ingredients',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const DishDetailsScreen(), transition: Transition.fadeIn);
+                        },
+                        child:Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ingredients',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 1.5.h,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'View list',
-                                style: TextStyle(
-                                  color: orangeColor,
-                                  fontSize: 7.sp,
+                            SizedBox(
+                              height: 1.5.h,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'View list',
+                                  style: TextStyle(
+                                    color: orangeColor,
+                                    fontSize: 7.sp,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 1.5.w,
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 7.sp,
-                                color: orangeColor,
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+                                SizedBox(
+                                  width: 1.5.w,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 7.sp,
+                                  color: orangeColor,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -609,12 +595,12 @@ class WidgetSubCategory extends StatelessWidget {
         borderRadius: BorderRadius.circular(100.w),
         boxShadow: isSelected
             ? const [
-                BoxShadow(
-                  color: Color(0xffFFF9F2),
-                  offset: Offset(0, 3),
-                  blurRadius: 6,
-                )
-              ]
+          BoxShadow(
+            color: Color(0xffFFF9F2),
+            offset: Offset(0, 3),
+            blurRadius: 6,
+          )
+        ]
             : [],
       ),
       child: Center(
