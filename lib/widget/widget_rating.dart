@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class WidgetRating extends StatelessWidget {
   const WidgetRating({
     super.key,
+    required this.rating,
   });
+
+  final String rating;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class WidgetRating extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '4.2',
+            rating,
             style: TextStyle(color: whiteColor, fontSize: 7.sp),
           ),
           SizedBox(

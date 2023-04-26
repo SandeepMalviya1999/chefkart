@@ -33,7 +33,7 @@ class ApiRepository {
   // Dish Details
   // --------------------------------------------------------------------------
 
-  Future<DishDetailsModel?> fetchDishDetailsRepo(String dishID) async {
+  Future<DishDetailsModel?> fetchDishDetailsRepo(int dishID) async {
     try {
       final url = Uri.https(baseUrl, 'dishes/v1/$dishID');
       final response = await http.get(url);

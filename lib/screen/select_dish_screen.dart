@@ -1,7 +1,9 @@
 import 'package:chefkart/constants/assets.dart';
 import 'package:chefkart/constants/colors.dart';
-import 'package:chefkart/screen/dish_details_screen.dart';
+import 'package:chefkart/controller/api_controller.dart';
+import 'package:chefkart/model/dashboard_model.dart';
 import 'package:chefkart/widget/widget_rating.dart';
+import 'package:chefkart/widget/widget_screen_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,10 +14,12 @@ class SelectDishScreen extends StatefulWidget {
   const SelectDishScreen({super.key});
 
   @override
-  State<SelectDishScreen> createState() => _SelectDishScreemState();
+  State<SelectDishScreen> createState() => _SelectDishScreenState();
 }
 
-class _SelectDishScreemState extends State<SelectDishScreen> {
+class _SelectDishScreenState extends State<SelectDishScreen> {
+  final _apiController = ApiController.to;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,234 +50,218 @@ class _SelectDishScreemState extends State<SelectDishScreen> {
             ),
           ),
         ),
-        body: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const WidgetHeader(),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25.w),
-                      child: Row(
-                        children: const [
-                          WidgetSubCategory(
-                            title: 'Italian',
-                            isSelected: true,
-                          ),
-                          WidgetSubCategory(
-                            title: 'Indian',
-                            isSelected: false,
-                          ),
-                          WidgetSubCategory(
-                            title: 'Indian',
-                            isSelected: false,
-                          ),
-                          WidgetSubCategory(
-                            title: 'Indian',
-                            isSelected: false,
-                          ),
-                          WidgetSubCategory(
-                            title: 'Indian',
-                            isSelected: false,
-                          ),
-                        ],
-                      ),
+        body: Obx(() {
+          if (_apiController.isLoadingDashboard()) {
+            return const WidgetLoadingScreen();
+          }
+          return Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const WidgetHeader(),
+                    SizedBox(
+                      height: 20.h,
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 25.w),
-                    child: Text(
-                      'Popular Dishes',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 25.w),
-                      child: Row(
-                        children: const [
-                          WidgetStatusView(
-                            title: 'Biryani',
-                            imagePath: dummy,
-                            isSelected: false,
-                          ),
-                          WidgetStatusView(
-                            title: 'Biryani',
-                            imagePath: dummy,
-                            isSelected: true,
-                          ),
-                          WidgetStatusView(
-                            title: 'Biryani',
-                            imagePath: dummy,
-                            isSelected: true,
-                          ),
-                          WidgetStatusView(
-                            title: 'Biryani',
-                            imagePath: dummy,
-                            isSelected: true,
-                          ),
-                          WidgetStatusView(
-                            title: 'Biryani',
-                            imagePath: dummy,
-                            isSelected: true,
-                          ),
-                          WidgetStatusView(
-                            title: 'Biryani',
-                            imagePath: dummy,
-                            isSelected: true,
-                          ),
-                          WidgetStatusView(
-                            title: 'Biryani',
-                            imagePath: dummy,
-                            isSelected: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  const Divider(
-                    thickness: 3,
-                    color: Color(0xffF2F2F2),
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Recommended',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 25.w),
+                        child: Row(
+                          children: const [
+                            WidgetSubCategory(
+                              title: 'Italian',
+                              isSelected: true,
                             ),
-                            SizedBox(
-                              width: 10.w,
+                            WidgetSubCategory(
+                              title: 'Indian',
+                              isSelected: false,
                             ),
-                            SvgPicture.asset(
-                              icArrowDown,
-                              height: 6.h,
-                              width: 6.w,
+                            WidgetSubCategory(
+                              title: 'Indian',
+                              isSelected: false,
+                            ),
+                            WidgetSubCategory(
+                              title: 'Indian',
+                              isSelected: false,
+                            ),
+                            WidgetSubCategory(
+                              title: 'Indian',
+                              isSelected: false,
                             ),
                           ],
                         ),
-                        Container(
-                          width: 56.w,
-                          padding: EdgeInsets.all(5.sp),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(9.w),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.16),
-                                offset: const Offset(0, 3),
-                                blurRadius: 4,
-                              )
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 25.w),
+                      child: Text(
+                        'Popular Dishes',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 25.w),
+                        child: Row(
+                          children: [
+                            for (var item in _apiController
+                                .dashboardData()
+                                .popularDishes!)
+                              WidgetStatusView(
+                                dishID: int.tryParse(item.id.toString()) ?? 0,
+                                title: '${item.name}',
+                                imagePath: '${item.image}',
+                                isSelected: false,
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    const Divider(
+                      thickness: 3,
+                      color: Color(0xffF2F2F2),
+                    ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Recommended',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              SvgPicture.asset(
+                                icArrowDown,
+                                height: 6.h,
+                                width: 6.w,
+                              ),
                             ],
                           ),
-                          child: Center(
-                            child: Text(
-                              'Menu',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
+                          Container(
+                            width: 56.w,
+                            padding: EdgeInsets.all(5.sp),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(9.w),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.16),
+                                  offset: const Offset(0, 3),
+                                  blurRadius: 4,
+                                )
+                              ],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Menu',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const WidgetIItemList(),
-                  const WidgetIItemList(),
-                  const WidgetIItemList(),
-                  const WidgetIItemList(),
-                  SizedBox(height: 50.h),
-                ],
-              ),
-            ),
-            Container(
-              height: 40.h,
-              margin: EdgeInsets.only(bottom: 10.h, left: 40.w, right: 40.w),
-              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
-              decoration: BoxDecoration(
-                color: primaryColor,
-                borderRadius: BorderRadius.circular(
-                  7.sp,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.09),
-                    offset: const Offset(0, 3),
-                    blurRadius: 9,
-                  )
-                ],
-              ),
-              child: Row(
-                children: [
-                  SvgPicture.asset(icFood),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Expanded(
-                    child: Text(
-                      '3 food items selected',
-                      style: TextStyle(
-                        color: whiteColor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  const Icon(
-                    Icons.arrow_forward,
-                    color: whiteColor,
-                  )
-                ],
+                    for (var dish in _apiController.dashboardData().dishes!)
+                      WidgetIItemList(
+                        dish: dish,
+                      ),
+                    SizedBox(height: 50.h),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+              Container(
+                height: 40.h,
+                margin: EdgeInsets.only(bottom: 10.h, left: 40.w, right: 40.w),
+                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(
+                    7.sp,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.09),
+                      offset: const Offset(0, 3),
+                      blurRadius: 9,
+                    )
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(icFood),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: Text(
+                        '3 food items selected',
+                        style: TextStyle(
+                          color: whiteColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: whiteColor,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
 }
 
 class WidgetIItemList extends StatelessWidget {
-  const WidgetIItemList({
+  WidgetIItemList({
     super.key,
+    required this.dish,
   });
+
+  final Dish dish;
+
+  final _apiController = ApiController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +278,7 @@ class WidgetIItemList extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Masala Muglai',
+                      '${dish.name}',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.sp,
@@ -308,7 +296,9 @@ class WidgetIItemList extends StatelessWidget {
                     SizedBox(
                       width: 8.w,
                     ),
-                    const WidgetRating()
+                    WidgetRating(
+                      rating: '${dish.rating}',
+                    )
                   ],
                 ),
                 SizedBox(
@@ -317,47 +307,10 @@ class WidgetIItemList extends StatelessWidget {
                 IntrinsicHeight(
                   child: Row(
                     children: [
-                      Column(
-                        children: [
-                          SvgPicture.asset(
-                            icRefrigerator,
-                            height: 14.h,
-                            width: 8.w,
-                          ),
-                          SizedBox(
-                            height: 1.5.h,
-                          ),
-                          Text(
-                            'Refrigerator',
-                            style: TextStyle(
-                              color: greyColor,
-                              fontSize: 6.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Column(
-                        children: [
-                          SvgPicture.asset(
-                            icRefrigerator,
-                            height: 14.h,
-                            width: 8.w,
-                          ),
-                          SizedBox(
-                            height: 1.5.h,
-                          ),
-                          Text(
-                            'Refrigerator',
-                            style: TextStyle(
-                              color: greyColor,
-                              fontSize: 6.sp,
-                            ),
-                          ),
-                        ],
-                      ),
+                      for (var item in dish.equipments!)
+                        WidgetEquipmentView(
+                          equipmentName: item,
+                        ),
                       SizedBox(
                         width: 15.w,
                       ),
@@ -366,10 +319,10 @@ class WidgetIItemList extends StatelessWidget {
                         width: 15.w,
                       ),
                       InkWell(
-                        onTap: () {
-                          Get.to(() => const DishDetailsScreen(), transition: Transition.fadeIn);
-                        },
-                        child:Column(
+                        onTap: () => _apiController.navigateToDishDetail(
+                          dishID: int.tryParse(dish.id.toString()) ?? 0,
+                        ),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -412,7 +365,7 @@ class WidgetIItemList extends StatelessWidget {
                   height: 8.h,
                 ),
                 Text(
-                  'Chicken fried in deep tomato sauce with delicious spices ',
+                  '${dish.description}',
                   style: TextStyle(
                     color: greyColor,
                     fontSize: 10.sp,
@@ -428,10 +381,14 @@ class WidgetIItemList extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: Image.asset(
-                  dummy,
-                  height: 68.h,
-                  width: 92.w,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.sp),
+                  child: Image.network(
+                    dish.image.toString(),
+                    height: 68.h,
+                    width: 92.w,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Positioned(
@@ -478,6 +435,41 @@ class WidgetIItemList extends StatelessWidget {
               ),
             ],
           )
+        ],
+      ),
+    );
+  }
+}
+
+class WidgetEquipmentView extends StatelessWidget {
+  const WidgetEquipmentView({
+    super.key,
+    required this.equipmentName,
+  });
+
+  final String equipmentName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(right: 5.w),
+      child: Column(
+        children: [
+          SvgPicture.asset(
+            icRefrigerator,
+            height: 14.h,
+            width: 8.w,
+          ),
+          SizedBox(
+            height: 1.5.h,
+          ),
+          Text(
+            equipmentName,
+            style: TextStyle(
+              color: greyColor,
+              fontSize: 6.sp,
+            ),
+          ),
         ],
       ),
     );
@@ -595,12 +587,12 @@ class WidgetSubCategory extends StatelessWidget {
         borderRadius: BorderRadius.circular(100.w),
         boxShadow: isSelected
             ? const [
-          BoxShadow(
-            color: Color(0xffFFF9F2),
-            offset: Offset(0, 3),
-            blurRadius: 6,
-          )
-        ]
+                BoxShadow(
+                  color: Color(0xffFFF9F2),
+                  offset: Offset(0, 3),
+                  blurRadius: 6,
+                )
+              ]
             : [],
       ),
       child: Center(
@@ -618,50 +610,58 @@ class WidgetSubCategory extends StatelessWidget {
 }
 
 class WidgetStatusView extends StatelessWidget {
-  const WidgetStatusView({
+  WidgetStatusView({
     super.key,
+    required this.dishID,
     required this.title,
     required this.imagePath,
     required this.isSelected,
   });
 
+  final int dishID;
   final String title;
   final String imagePath;
   final bool isSelected;
 
+  final _apiController = ApiController.to;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
-      padding: isSelected ? EdgeInsets.all(2.sp) : EdgeInsets.zero,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: isSelected ? lightOrangeColor : whiteColor,
-        border: Border.all(color: isSelected ? orangeColor : greyColor),
-      ),
+    return InkWell(
+      onTap: () => _apiController.navigateToDishDetail(dishID: dishID),
       child: Container(
-        width: 57.w,
-        height: 57.h,
+        margin: EdgeInsets.fromLTRB(0, 0, 10.w, 0),
+        padding: isSelected ? EdgeInsets.all(2.sp) : EdgeInsets.zero,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: isSelected ? lightOrangeColor : whiteColor,
           border: Border.all(color: isSelected ? orangeColor : greyColor),
-          image: DecorationImage(
-            image: AssetImage(imagePath),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              const Color(0xff1C1C1C).withOpacity(0.6),
-              BlendMode.multiply,
+        ),
+        child: Container(
+          width: 57.w,
+          height: 57.h,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isSelected ? lightOrangeColor : whiteColor,
+            border: Border.all(color: isSelected ? orangeColor : greyColor),
+            image: DecorationImage(
+              image: NetworkImage(imagePath),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                const Color(0xff1C1C1C).withOpacity(0.6),
+                BlendMode.multiply,
+              ),
             ),
           ),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              color: whiteColor,
-              fontSize: 10.sp,
-              fontWeight: FontWeight.bold,
+          child: Center(
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: whiteColor,
+                fontSize: 10.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
